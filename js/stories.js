@@ -22,6 +22,7 @@ async function getAndShowStoriesOnStart() {
 function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
+  //FIXME: currently not getting host name for story
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
