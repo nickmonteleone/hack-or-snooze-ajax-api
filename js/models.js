@@ -13,6 +13,7 @@ class Story {
    */
 
   constructor({ storyId, title, author, url, username, createdAt }) {
+    console.log('making story class');
     this.storyId = storyId;
     this.title = title;
     this.author = author;
@@ -74,36 +75,45 @@ class StoryList {
    */
 
   async addStory(user, newStory) {
+    console.log('starting add story');
     console.log('user: ', user, 'newStory: ', newStory);
-    const {title, author, url} = newStory;
+
+    const { title, author, url } = newStory;
     const loginToken = user.loginToken;
-    //send a post request to API --
+
+    // make json string for body
+    const body = JSON.stringify({
+      "token": loginToken,
+      "story": {
+        "author": author,
+        "title": title,
+        "url": url
+      }
+    });
+
+    // send a post request to API --
     const response = await fetch(
-      `${BASE_URL}/stories`, 
+      `${BASE_URL}/stories`,
       {
         method: "POST",
-        body: {
-          "token": loginToken, 
-          "story": {
-            "author": author,
-            "title": title,
-            "url": url
-          }
-        },
+        body: body,
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json; charset=utf-8",
         }
       }
-    )
-    //
-    console.log('response= ', response);
-    const story = (await response.json()).story;
-    console.log('story: ', story);
-    //create new Story instance
-    // new Story()
-    //add Story instance to story list
-    //returns new Story instance
+    );
+
+    const storyObject = (await response.json()).story;
+    console.log('response story: ', storyObject);
+    // create new Story instance using spread of response object
+    const newStoryInstance = new Story({...storyObject});
+    // // add new class Story instance to story list
+    this.stories.push(newStoryInstance);
+
+    console.log('added story:', newStoryInstance);
+    return newStoryInstance;
   }
+
 }
 
 
