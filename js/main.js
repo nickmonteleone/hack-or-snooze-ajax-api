@@ -9,17 +9,17 @@ const $allStoriesList = $("#all-stories-list");
 
 const $loginForm = $("#login-form");
 const $signupForm = $("#signup-form");
-const $submitForm = $("#submit-form");
+const $submitForm = $("#create-story-form");
 
 const $navLogin = $("#nav-login");
 const $navUserProfile = $("#nav-user-profile");
 const $navLogOut = $("#nav-logout");
 const $navSubmit = $("#nav-submit");
 
-const $submitAuthor = $('#submit-author');
-const $submitTitle = $('#submit-title');
-const $submitUrl = $('#submit-url');
-const $submitButton = $('#submit-button');
+const $submitAuthor = $('#create-story-author');
+const $submitTitle = $('#create-story-title');
+const $submitUrl = $('#create-story-url');
+const $submitButton = $('#create-story-button');
 
 
 /** To make it easier for individual components to show just themselves, this
