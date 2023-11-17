@@ -147,6 +147,25 @@ class User {
     this.loginToken = token;
   }
 
+    /** When a user favorites a story, add the story they favorite from storyList 
+   * into the user's favorites in the server
+  */
+    async addFavorite(story) {
+      //make a POST request to API
+      //{{ _.base_url }}/users/{{ _.username }}/favorites/{{ _.storyId }}
+      const response = await fetch(
+        `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`, 
+        {
+          method: "POST",
+          body: JSON.stringify({"token": this.loginToken})
+        });
+      const favoriteAddResponse = await response.json();
+      console.log('favoriteAddResp: ', favoriteAddResponse);
+      //update the FE user's favorites with the story input
+      this.favorites.unshift(story);
+      console.log('currentUserFavs: ', this.favorites);
+    }
+
   /** Register new user in API, make User instance & return it.
    *
    * - username: a new username
@@ -222,7 +241,9 @@ class User {
       );
       const userData = await response.json();
       const { user } = userData;
-
+      
+      console.log('user: ', user);
+      
       return new User(
         {
           username: user.username,
