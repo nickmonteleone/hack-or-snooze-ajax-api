@@ -26,6 +26,7 @@ class Story {
 
   getHostName() {
     console.log('getting hostname');
+    //TODO: take a look into url class. Feed in string, recognizes url and has hostname property
     let hostname = this.url.split('/')[2].replace('www.','');
     return hostname;
   }
@@ -75,20 +76,21 @@ class StoryList {
    * Returns the new Story instance
    */
 
+  // TODO: destructure for new story from within method
   async addStory(user, newStory) {
     console.log('starting add story');
     console.log('user: ', user, 'newStory: ', newStory);
 
     const { title, author, url } = newStory;
-    const loginToken = user.loginToken;
+    const token = user.loginToken;
 
     // make json string for body
     const body = JSON.stringify({
-      "token": loginToken,
+      token,
       "story": {
-        "author": author,
-        "title": title,
-        "url": url
+        author,
+        title,
+        url
       }
     });
 
@@ -99,16 +101,19 @@ class StoryList {
         method: "POST",
         body: body,
         headers: {
-          "Content-Type": "application/json; charset=utf-8",
+          "Content-Type": "application/json",
         }
       }
     );
 
+    // TODO: pull whole story and get story value later
     const storyObject = (await response.json()).story;
     console.log('response story: ', storyObject);
     // create new Story instance using spread of response object
+    // TODO: change to response.story
     const newStoryInstance = new Story({...storyObject});
     // // add new class Story instance to story list
+    // TODO: unshift instead of push to have story appear at top of list
     this.stories.push(newStoryInstance);
 
     console.log('added story:', newStoryInstance);

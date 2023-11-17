@@ -40,6 +40,7 @@ function updateNavOnLogin() {
 /** When a user clicks on 'submit' link, reveal the story submit form */
 
 function navSubmitClick(evt) {
+  evt.preventDefault();
   console.debug("navSubmitClick", evt);
   $submitForm.show();
 }
