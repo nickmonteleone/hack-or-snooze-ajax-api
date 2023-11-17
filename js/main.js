@@ -16,6 +16,11 @@ const $navUserProfile = $("#nav-user-profile");
 const $navLogOut = $("#nav-logout");
 const $navSubmit = $("#nav-submit");
 
+const $submitAuthor = $('#submit-author');
+const $submitTitle = $('#submit-title');
+const $submitUrl = $('#submit-url');
+const $submitButton = $('#submit-button');
+
 
 /** To make it easier for individual components to show just themselves, this
  * is a useful function that hides pretty much everything on the page. After

@@ -25,8 +25,9 @@ class Story {
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
-    // FIXME: complete this function!
-    return "hostname.com";
+    console.log('getting hostname');
+    let hostname = this.url.split('/')[2].replace('www.','');
+    return hostname;
   }
 }
 

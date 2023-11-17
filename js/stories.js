@@ -22,7 +22,6 @@ async function getAndShowStoriesOnStart() {
 function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
-  //FIXME: currently not getting host name for story
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
@@ -51,3 +50,30 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
+
+/** Uses input data from form to add a story to the list and show on page
+ * No inputs, use data from form. No returns, add new story to page
+ */
+
+async function useFormDataToAddAndShowStory(evt) {
+  console.log('starting submit form');
+  evt.preventDefault();
+
+  const inputAuthor = $submitAuthor.val();
+  const inputTitle = $submitTitle.val();
+  const inputUrl = $submitUrl.val();
+  console.log('input author:', inputAuthor);
+  console.log('input title:', inputTitle);
+  console.log('input url:', inputUrl);
+
+  const newStory = await storyList.addStory(currentUser,
+    {author: inputAuthor,
+    title: inputTitle,
+    url: inputUrl});
+
+  console.log('story added:', newStory);
+  const $newStory = generateStoryMarkup(newStory);
+  $allStoriesList.append($newStory);
+}
+
+$submitButton.on("click", useFormDataToAddAndShowStory);

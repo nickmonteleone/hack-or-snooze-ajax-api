@@ -17,6 +17,12 @@ nav {
   text-align: center;
 }
 
+.nav-main .nav-link{
+  text-align: center;
+  padding-left: 6px;
+  border-left: 1px solid black;
+}
+
 .nav-link {
   font-size: 0.85rem;
   margin: 0 3px;
