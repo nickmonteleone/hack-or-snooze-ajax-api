@@ -31,13 +31,17 @@ class Story {
     return url.hostname;
   }
 
-  static async retrieveStoryFromId(id) {
+  /** Creates a story instance from retrieving API story data with story Id
+   * Input - story id, Output - new instance of Story class
+  */
+
+  static async retrieveStoryFromId(storyId) {
     //return entire story object from id
     //make get request from API
     // {{ _.base_url }}/stories/{{ _.storyId }}
     console.log('retrieving story from DB with id');
     const response = await fetch(
-      `${BASE_URL}/stories/${id}`
+      `${BASE_URL}/stories/${storyId}`
     );
     const storyObj = await response.json();
     console.log('storyObj: ', storyObj);
@@ -82,7 +86,8 @@ class StoryList {
     return new StoryList(stories);
   }
 
-  /** Adds story data to API, makes a Story instance, adds it to story list.
+  /** Adds story data to API, makes a Story instance, adds it to story list, 
+   * and user's 'my stories' list.
    * - user - the current instance of User who will post the story
    * - obj of {title, author, url}
    *
@@ -119,12 +124,15 @@ class StoryList {
     const storyObject = (await response.json());
     console.log('response story: ', storyObject);
     // create new Story instance using spread of response object
-    const newStoryInstance = new Story(storyObject.story);
+    const story = new Story(storyObject.story);
     // // add new class Story instance to story list
-    this.stories.unshift(newStoryInstance);
+    this.stories.unshift(story);
+    //add new story instance to user's myStories
+    user.ownStories.unshift(story);
+    
 
-    console.log('added story:', newStoryInstance);
-    return newStoryInstance;
+    console.log('added story:', story);
+    return story;
   }
 
 }
@@ -179,8 +187,9 @@ class User {
     console.log('currentUserFavs: ', this.favorites);
   }
 
-  /** Remove a story from user's favorites by sending delete to api
-   * removing story from favorites property. Input a story instance */
+  /** Remove a story instance from user's favorites by sending delete to api
+   * removing story instance from user's favorites property. 
+   * Input a story instance */
 
   async removeFavorite(story) {
     //make a DELETE request to API

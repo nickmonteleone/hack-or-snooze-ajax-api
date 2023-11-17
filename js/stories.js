@@ -87,8 +87,8 @@ function putMyStoriesOnPage() {
 }
 
 
-/** Uses input data from form to add a story to the list and show on page
- * No inputs, use data from form. No returns, add new story to page
+/** Uses input data from form to add a story story instance to the list and show on page
+ * No inputs, use data from form. No returns, add new story instance to page
  */
 
 async function addAndShowStory(evt) {
@@ -102,11 +102,11 @@ async function addAndShowStory(evt) {
   console.log('input title:', title);
   console.log('input url:', url);
 
-  const newStory = await storyList.addStory(currentUser, { author, title, url });
+  const story = await storyList.addStory(currentUser, { author, title, url });
 
-  console.log('story added:', newStory);
-  const $newStory = generateStoryMarkup(newStory);
-  $allStoriesList.prepend($newStory);
+  console.log('story added:', story);
+  const $story = generateStoryMarkup(story);
+  $allStoriesList.prepend($story);
 }
 
 $submitButton.on("click", addAndShowStory);
