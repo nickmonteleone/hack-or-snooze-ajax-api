@@ -30,6 +30,19 @@ class Story {
     const url = new URL(this.url);
     return url.hostname;
   }
+
+  static async retrieveStoryFromId(id) {
+    //return entire story object from id
+    //make get request from API
+    // {{ _.base_url }}/stories/{{ _.storyId }}
+    console.log('retrieving story from DB with id');
+    const response = await fetch(
+      `${BASE_URL}/stories/${id}`
+    );
+    const storyObj = await response.json();
+    console.log('storyObj: ', storyObj);
+    return new Story(storyObj.story);
+  }
 }
 
 
@@ -147,7 +160,7 @@ class User {
     this.loginToken = token;
   }
 
-  /** Add a story to user's favorites by sending post to api and updating
+  /** Add a story class instance to user's favorites by sending post to api and updating
    * front end user class instance favorites property. Input story instance */
 
   async addFavorite(story) {

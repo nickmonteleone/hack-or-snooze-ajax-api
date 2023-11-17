@@ -118,6 +118,19 @@ $submitButton.on("click", addAndShowStory);
 
 async function addFavoriteClick(evt){
   console.log('handling add favorite click');
+  const $favoriteBtn = $(evt.target);
+  console.log("$favoriteBtn: ", $favoriteBtn);
+  
+  const $story = $favoriteBtn.closest('li');
+  console.log("$story", $story);
+  
+  const storyId = $story.attr("id");
+  console.log("story id: ", storyId);
+  
+  const story = await Story.retrieveStoryFromId(storyId);
+  
+  console.log("story from db: ", story);
+  await currentUser.addFavorite(story);
 }
 
 /** When user clicks on filled fav icon, favorite
