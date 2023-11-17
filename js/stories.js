@@ -55,7 +55,8 @@ function putStoriesOnPage() {
  * No inputs, use data from form. No returns, add new story to page
  */
 
-async function useFormDataToAddAndShowStory(evt) {
+
+async function addAndShowStory(evt) {
   console.log('starting submit form');
   evt.preventDefault();
 
@@ -66,6 +67,7 @@ async function useFormDataToAddAndShowStory(evt) {
   console.log('input title:', inputTitle);
   console.log('input url:', inputUrl);
 
+  // TODO: rename to just author, title, url - simplify object
   const newStory = await storyList.addStory(currentUser,
     {author: inputAuthor,
     title: inputTitle,
@@ -73,7 +75,8 @@ async function useFormDataToAddAndShowStory(evt) {
 
   console.log('story added:', newStory);
   const $newStory = generateStoryMarkup(newStory);
+  // TODO: prepend instead of append to put at top
   $allStoriesList.append($newStory);
 }
 
-$submitButton.on("click", useFormDataToAddAndShowStory);
+$submitButton.on("click", addAndShowStory);
