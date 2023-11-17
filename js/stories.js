@@ -15,18 +15,24 @@ async function getAndShowStoriesOnStart() {
 /**
  * A render method to render HTML for an individual Story instance
  * - story: an instance of Story
- *
+ * - Input a story, if it is in user's favorites then show solid fav icon
  * Returns the markup for the story.
  */
 
 function generateStoryMarkup(story) {
-  // console.debug("generateStoryMarkup", story);
+
+  let favIconClass = "bi-star";
+  const currentUserFavorites = currentUser.favorites.map(
+    story => story.storyId);
+
+  if (currentUserFavorites.includes(story.storyId)) {
+    favIconClass = "bi-star-fill";
+  }
 
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
-        <i class="bi bi-star"></i>
-        <i class="bi bi-star-fill"></i>
+        <i class="bi ${favIconClass}"></i>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -86,10 +92,10 @@ function putMyStoriesOnPage() {
   $myStoriesList.show();
 }
 
-
-/** Uses input data from form to add a story story instance to the list and show on page
- * No inputs, use data from form. No returns, add new story instance to page
- */
+/** Uses input data from form to add a story instance to the list
+ * and show story on page
+ * Input event, use data from form.
+ * No return, add new story instance to page */
 
 async function addAndShowStory(evt) {
   console.log('starting submit form');
@@ -111,34 +117,57 @@ async function addAndShowStory(evt) {
 
 $submitButton.on("click", addAndShowStory);
 
+/** Get story id for favorite icon. Input a jquery object for a favorite
+ * icon, return the story id for the icon */
 
-/** When user clicks on unfilled fav icon, favorite
- * No inputs, use id from story. No returns, add fav
- */
+function getFavoriteIconStoryId($favoriteIcon) {
 
-async function addFavoriteClick(evt){
-  console.log('handling add favorite click');
-  const $favoriteBtn = $(evt.target);
-  console.log("$favoriteBtn: ", $favoriteBtn);
-  
-  const $story = $favoriteBtn.closest('li');
+  const $story = $favoriteIcon.closest('li');
   console.log("$story", $story);
-  
+
   const storyId = $story.attr("id");
   console.log("story id: ", storyId);
-  
-  const story = await Story.retrieveStoryFromId(storyId);
-  
-  console.log("story from db: ", story);
-  await currentUser.addFavorite(story);
+
+  return storyId;
 }
 
-/** When user clicks on filled fav icon, favorite
+/** When user clicks on unfilled fav icon, favorite the story
  * No inputs, use id from story. No returns, add fav
+ * Change fav icon to be filled once favorited */
+
+async function addFavoriteClick(evt) {
+  console.log('handling add favorite click');
+  const $favoriteIcon = $(evt.target);
+  console.log("$favoriteIcon: ", $favoriteIcon);
+
+  const storyId = getFavoriteIconStoryId($favoriteIcon);
+
+  const story = await Story.retrieveStoryFromId(storyId);
+
+  console.log("story from db: ", story);
+  await currentUser.addFavorite(story);
+
+  $favoriteIcon.removeClass("bi-star").addClass("bi-star-fill");
+}
+
+/** When user clicks on filled fav icon, unfavorite the story
+ * No inputs, use id from story. No returns, add fav
+ * Change fav icon to be unfilled once favorite is removed
  */
 
-async function removeFavoriteClick(evt){
+async function removeFavoriteClick(evt) {
   console.log('handling remove favorite click');
+  const $favoriteIcon = $(evt.target);
+  console.log("$favoriteIcon: ", $favoriteIcon);
+
+  const storyId = getFavoriteIconStoryId($favoriteIcon);
+
+  const story = await Story.retrieveStoryFromId(storyId);
+
+  console.log("story from db: ", story);
+  await currentUser.removeFavorite(story);
+
+  $favoriteIcon.removeClass("bi-star-fill").addClass("bi-star");
 }
 
 $body.on("click", ".bi-star", addFavoriteClick);
