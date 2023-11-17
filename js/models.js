@@ -264,7 +264,7 @@ class User {
       const userData = await response.json();
       const { user } = userData;
 
-      console.log('user: ', user);
+      console.log('user data (from api): ', user);
 
       return new User(
         {

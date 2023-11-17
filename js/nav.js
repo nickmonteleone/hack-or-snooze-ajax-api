@@ -46,3 +46,31 @@ function navSubmitClick(evt) {
 }
 
 $navSubmit.on("click", navSubmitClick);
+
+/** When a user clicks on 'favorites' link, reveal the favorites */
+
+function navFavoritesClick(evt) {
+  evt.preventDefault();
+  console.debug("navFavoritesClick", evt);
+
+  hidePageComponents();
+  putFavoritesOnPage();
+
+  $favStoriesList.show();
+}
+
+$navFavorites.on("click", navFavoritesClick);
+
+/** When a user clicks on 'my stories' link, reveal my stories list */
+
+function navMyStoriesClick(evt) {
+  evt.preventDefault();
+  console.debug("navMyStoriesClick", evt);
+
+  hidePageComponents();
+  putMyStoriesOnPage();
+
+  $myStoriesList.show();
+}
+
+$navMyStories.on("click", navMyStoriesClick);
