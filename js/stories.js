@@ -21,15 +21,23 @@ async function getAndShowStoriesOnStart() {
 
 function generateStoryMarkup(story) {
 
-  let favIconClass = "bi-star";
-  const currentUserFavorites = currentUser.favorites.map(
-    story => story.storyId);
+  let favIconClass = "";
 
-  if (currentUserFavorites.includes(story.storyId)) {
-    favIconClass = "bi-star-fill";
+  if (currentUser instanceof User) {
+    const currentUserFavorites = currentUser.favorites.map(
+      story => story.storyId);
+
+    if (currentUserFavorites.includes(story.storyId)) {
+      favIconClass = "bi bi-star-fill";
+    }
+    else {
+      favIconClass = "bi bi-star";
+    }
+
   }
 
   const hostName = story.getHostName();
+
   return $(`
       <li id="${story.storyId}">
         <i class="bi ${favIconClass}"></i>
