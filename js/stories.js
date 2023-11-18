@@ -159,7 +159,9 @@ async function addFavoriteClick(evt) {
   console.log("story class instance to add: ", story);
   await currentUser.addFavorite(story);
   //TODO: look into toggle class method in jQuery
-  $favoriteIcon.removeClass("bi-star").addClass("bi-star-fill");
+  // $favoriteIcon.removeClass("bi-star").addClass("bi-star-fill");
+  $favoriteIcon.toggleClass("bi-star bi-star-fill");
+
 }
 
 /** When user clicks on filled fav icon, unfavorite the story
@@ -179,7 +181,9 @@ async function removeFavoriteClick(evt) {
   console.log("story from db: ", story);
   await currentUser.removeFavorite(story);
 
-  $favoriteIcon.removeClass("bi-star-fill").addClass("bi-star");
+  // $favoriteIcon.removeClass("bi-star-fill").addClass("bi-star");
+  $favoriteIcon.toggleClass("bi-star bi-star-fill");
+
 }
 
 //TODO: single event listener for consolidated function
