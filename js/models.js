@@ -34,8 +34,7 @@ class Story {
   /** Creates a story instance from retrieving API story data with story Id
    * Input - story id, Output - new instance of Story class
   */
-  //TODO: rename to getStoryFromId to match naming convention for codebase
-  static async retrieveStoryFromId(storyId) {
+  static async getStoryFromId(storyId) {
     //return entire story object from id
     //make get request from API
     // {{ _.base_url }}/stories/{{ _.storyId }}
@@ -43,10 +42,10 @@ class Story {
     const response = await fetch(
       `${BASE_URL}/stories/${storyId}`
     );
-    //TODO: rename to story data
-    const storyObj = await response.json();
-    console.log('storyObj: ', storyObj);
-    return new Story(storyObj.story);
+
+    const storyData = await response.json();
+    console.log('storyObj: ', storyData);
+    return new Story(storyData.story);
   }
 }
 
@@ -181,18 +180,17 @@ class User {
         method: "POST",
         body: JSON.stringify({ "token": this.loginToken })
       });
-    // // TODO: rename favorite add response OR remove
-    // const favoriteAddResponse = await response.json();
-    // console.log('favoriteAddResp: ', favoriteAddResponse);
-    //TODO: make sure favorites list from api also is in reverse chron order
+    //NOTE: rename favorite add response OR remove, since we are not accessing it
+    // const favoriteAddedData = await response.json();
+    // console.log('favoriteAddResp: ', favoriteAddedData);
     //update the user isntance's favorites with the story input
-    this.favorites.unshift(story);
+    this.favorites.push(story);
     console.log('currentUserFavs: ', this.favorites);
   }
-  //TODO: repeat changes made for add favorite
-  /** Remove a story instance from user's favorites by sending delete to api
-   * removing story instance from user's favorites property.
+  
+  /** Delete story from API, and remove story instance from user's favorites
    * Input a story instance */
+  
   //TODO: Look into consilidating into toggleFavorite function
   async removeFavorite(story) {
     //make a DELETE request to API

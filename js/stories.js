@@ -81,6 +81,7 @@ function putFavoritesOnPage() {
     const $story = generateStoryMarkup(story);
     $favStoriesList.append($story);
   }
+  console.log('$favoriteStoriesList: ', $favStoriesList.uniqueSort());
 
   $favStoriesList.show();
 }
@@ -153,7 +154,7 @@ async function addFavoriteClick(evt) {
 
   const storyId = getFavoriteIconStoryId($favoriteIcon);
 
-  const story = await Story.retrieveStoryFromId(storyId);
+  const story = await Story.getStoryFromId(storyId);
 
   console.log("story class instance to add: ", story);
   await currentUser.addFavorite(story);
@@ -173,7 +174,7 @@ async function removeFavoriteClick(evt) {
 
   const storyId = getFavoriteIconStoryId($favoriteIcon);
 
-  const story = await Story.retrieveStoryFromId(storyId);
+  const story = await Story.getStoryFromId(storyId);
 
   console.log("story from db: ", story);
   await currentUser.removeFavorite(story);
