@@ -35,7 +35,7 @@ function updateNavOnLogin() {
   $navLogin.hide();
 
   $navLogOut.show();
-  $navSubmit.show()
+  $navSubmit.show();
   $navFavorites.show();
   $navMyStories.show();
 
@@ -79,3 +79,4 @@ function navMyStoriesClick(evt) {
 }
 
 $navMyStories.on("click", navMyStoriesClick);
+//TODO: could have putOnPage($type) function that has combined functionality

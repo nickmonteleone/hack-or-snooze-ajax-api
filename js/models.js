@@ -34,7 +34,7 @@ class Story {
   /** Creates a story instance from retrieving API story data with story Id
    * Input - story id, Output - new instance of Story class
   */
-
+  //TODO: rename to getStoryFromId to match naming convention for codebase
   static async retrieveStoryFromId(storyId) {
     //return entire story object from id
     //make get request from API
@@ -43,6 +43,7 @@ class Story {
     const response = await fetch(
       `${BASE_URL}/stories/${storyId}`
     );
+    //TODO: rename to story data
     const storyObj = await response.json();
     console.log('storyObj: ', storyObj);
     return new Story(storyObj.story);
@@ -86,7 +87,7 @@ class StoryList {
     return new StoryList(stories);
   }
 
-  /** Adds story data to API, makes a Story instance, adds it to story list, 
+  /** Adds story data to API, makes a Story instance, adds it to story list,
    * and user's 'my stories' list.
    * - user - the current instance of User who will post the story
    * - obj of {title, author, url}
@@ -129,7 +130,7 @@ class StoryList {
     this.stories.unshift(story);
     //add new story instance to user's myStories
     user.ownStories.unshift(story);
-    
+
 
     console.log('added story:', story);
     return story;
@@ -168,8 +169,8 @@ class User {
     this.loginToken = token;
   }
 
-  /** Add a story class instance to user's favorites by sending post to api and updating
-   * front end user class instance favorites property. Input story instance */
+  /** Send post to API and add a story class instance to user's favorites
+   * Input story instance, no return */
 
   async addFavorite(story) {
     //make a POST request to API
@@ -180,17 +181,19 @@ class User {
         method: "POST",
         body: JSON.stringify({ "token": this.loginToken })
       });
-    const favoriteAddResponse = await response.json();
-    console.log('favoriteAddResp: ', favoriteAddResponse);
+    // // TODO: rename favorite add response OR remove
+    // const favoriteAddResponse = await response.json();
+    // console.log('favoriteAddResp: ', favoriteAddResponse);
+    //TODO: make sure favorites list from api also is in reverse chron order
     //update the user isntance's favorites with the story input
     this.favorites.unshift(story);
     console.log('currentUserFavs: ', this.favorites);
   }
-
+  //TODO: repeat changes made for add favorite
   /** Remove a story instance from user's favorites by sending delete to api
-   * removing story instance from user's favorites property. 
+   * removing story instance from user's favorites property.
    * Input a story instance */
-
+  //TODO: Look into consilidating into toggleFavorite function
   async removeFavorite(story) {
     //make a DELETE request to API
     //{{ _.base_url }}/users/{{ _.username }}/favorites/{{ _.storyId }}

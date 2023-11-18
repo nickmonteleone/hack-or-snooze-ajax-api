@@ -24,9 +24,11 @@ function generateStoryMarkup(story) {
   let favIconClass = "";
 
   if (currentUser instanceof User) {
+    // TODO: rename currentUserFavorites to favoriteIds
     const currentUserFavorites = currentUser.favorites.map(
       story => story.storyId);
 
+    // TODO: have fav icon variable be full html instead of classes
     if (currentUserFavorites.includes(story.storyId)) {
       favIconClass = "bi bi-star-fill";
     }
@@ -127,7 +129,7 @@ $submitButton.on("click", addAndShowStory);
 
 /** Get story id for favorite icon. Input a jquery object for a favorite
  * icon, return the story id for the icon */
-
+// TODO: consolidate to be in favorite click functions
 function getFavoriteIconStoryId($favoriteIcon) {
 
   const $story = $favoriteIcon.closest('li');
@@ -143,6 +145,7 @@ function getFavoriteIconStoryId($favoriteIcon) {
  * No inputs, use id from story. No returns, add fav
  * Change fav icon to be filled once favorited */
 
+//TODO: Combine add and delete favorite function
 async function addFavoriteClick(evt) {
   console.log('handling add favorite click');
   const $favoriteIcon = $(evt.target);
@@ -152,9 +155,9 @@ async function addFavoriteClick(evt) {
 
   const story = await Story.retrieveStoryFromId(storyId);
 
-  console.log("story from db: ", story);
+  console.log("story class instance to add: ", story);
   await currentUser.addFavorite(story);
-
+  //TODO: look into toggle class method in jQuery
   $favoriteIcon.removeClass("bi-star").addClass("bi-star-fill");
 }
 
@@ -178,5 +181,6 @@ async function removeFavoriteClick(evt) {
   $favoriteIcon.removeClass("bi-star-fill").addClass("bi-star");
 }
 
+//TODO: single event listener for consolidated function
 $body.on("click", ".bi-star", addFavoriteClick);
 $body.on("click", ".bi-star-fill", removeFavoriteClick);
